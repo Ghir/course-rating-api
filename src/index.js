@@ -15,18 +15,18 @@ const app = express();
 mongoose.connect("mongodb://localhost:27017/courseRating")
 var db = mongoose.connection;
 
-db.on("error", function(err){
+db.on("error", err => {
   console.error("connection error:", err);
 });
 
 
-db.once("open", function(){
+db.once("open", () => {
   console.log("db connection sucessful");
   seeder.seed(data, {}, () => {
     console.log("Data seeded");
-  }).then(function(dbData) {
+  }).then(dbData => {
     // The database objects are stored in dbData
-  }).catch(function(err) {
+  }).catch(err => {
     console.log(err);
   });
 });
@@ -34,7 +34,6 @@ db.once("open", function(){
 app.set('port', process.env.PORT || 5000);
 
 app.use(morgan('dev'));
-
 app.use(jsonParser());
 
 app.use('/', express.static('public'));
@@ -42,17 +41,17 @@ app.use('/', express.static('public'));
 app.use('/api/users', users);
 app.use('/api/courses', courses);
 
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   var err = new Error('File Not Found');
   err.status = 404;
   next(err);
 });
 
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.send(err);
 });
 
-var server = app.listen(app.get('port'), function() {
+var server = app.listen(app.get('port'), () => {
   console.log('Express server is listening on port ' + server.address().port);
 });

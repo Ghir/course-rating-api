@@ -31,6 +31,8 @@ var CourseSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Review'
   }]
+},{
+  usePushEach: true
 });
 
 const Course = mongoose.model('Course', CourseSchema);

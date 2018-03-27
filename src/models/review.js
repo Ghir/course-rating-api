@@ -17,6 +17,8 @@ var ReviewSchema = new Schema({
     max: 5
   },
 	review: String
+},{
+  usePushEach: true
 });
 
 const Review = mongoose.model('Review', ReviewSchema);

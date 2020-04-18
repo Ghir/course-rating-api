@@ -1,23 +1,23 @@
 'use strict';
-var mongoose = require("mongoose");
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-var ReviewSchema = new Schema({
+const ReviewSchema = new Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
-	postedOn: {
+  postedOn: {
     type: Date,
     default: Date.now
   },
-	rating: {
+  rating: {
     type: Number,
     min: 1,
     max: 5
   },
-	review: String
-},{
+  review: String
+}, {
   usePushEach: true
 });
 

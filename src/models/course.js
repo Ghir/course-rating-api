@@ -1,21 +1,21 @@
 'use strict';
-var mongoose = require("mongoose");
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-var CourseSchema = new Schema({
-	user: {
+const CourseSchema = new Schema({
+  user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
-	title: {
+  title: {
     type: String,
     required: true
   },
-	description: {
+  description: {
     type: String,
     required: true
   },
-	estimatedTime: String,
+  estimatedTime: String,
   materialsNeeded: String,
   steps: [{
     stepNumber: Number,
@@ -26,12 +26,13 @@ var CourseSchema = new Schema({
     description: {
       type: String,
       required: true
-    }}],
+    }
+  }],
   reviews: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Review'
   }]
-},{
+}, {
   usePushEach: true
 });
 

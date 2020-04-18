@@ -1,31 +1,26 @@
 'use strict';
 
-const express = require('express');
-const morgan = require('morgan');
-const mongoose = require('mongoose');
-const jsonParser = require('body-parser').json;
-const seeder = require('mongoose-seeder'),
-  data = require('./data/data.json');
+const express = require('express'),
+  morgan = require('morgan'),
+  mongoose = require('mongoose'),
+  jsonParser = require('body-parser').json,
+  seeder = require('mongoose-seeder'),
+  data = require('./data/data.json'),
+  courses = require('./routes/courses'),
+  users = require('./routes/users'),
+  app = express(),
+  db = mongoose.connection;
 
-const courses = require('./routes/courses');
-const users = require('./routes/users');
+mongoose.connect('mongodb://localhost:27017/courseRating');
 
-const app = express();
-
-mongoose.connect("mongodb://localhost:27017/courseRating")
-var db = mongoose.connection;
-
-db.on("error", err => {
-  console.error("connection error:", err);
+db.on('error', err => {
+  console.error('connection error:', err);
 });
 
-
-db.once("open", () => {
-  console.log("db connection sucessful");
+db.once('open', () => {
+  console.log('db connection successful');
   seeder.seed(data, {}, () => {
-    console.log("Data seeded");
-  }).then(dbData => {
-    // The database objects are stored in dbData
+    console.log('Data seeded');
   }).catch(err => {
     console.log(err);
   });
@@ -42,7 +37,7 @@ app.use('/api/users', users);
 app.use('/api/courses', courses);
 
 app.use((req, res, next) => {
-  var err = new Error('File Not Found');
+  const err = new Error('File Not Found');
   err.status = 404;
   next(err);
 });
@@ -52,6 +47,6 @@ app.use((err, req, res, next) => {
   res.send(err);
 });
 
-var server = app.listen(app.get('port'), () => {
+const server = app.listen(app.get('port'), () => {
   console.log('Express server is listening on port ' + server.address().port);
 });
